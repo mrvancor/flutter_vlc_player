@@ -142,6 +142,7 @@ class VlcPlayerController extends ValueNotifier<VlcPlayerValue> {
   /// List of onRenderer listeners
   final List<RendererCallback> _onRendererEventListeners = [];
 
+  bool get isDisposed => _isDisposed;
   bool _isDisposed = false;
 
   VlcAppLifeCycleObserver? _lifeCycleObserver;
@@ -369,7 +370,9 @@ class VlcPlayerController extends ValueNotifier<VlcPlayerValue> {
     if (_onInit != null) {
       _onInit!();
     }
-    _onInitListeners.forEach((listener) => listener());
+    for (var listener in _onInitListeners) {
+      listener();
+    }
   }
 
   /// Notify onRendererHandler callback & all registered listeners
@@ -381,7 +384,9 @@ class VlcPlayerController extends ValueNotifier<VlcPlayerValue> {
     if (_onRendererHandler != null) {
       _onRendererHandler!(type, id!, name!);
     }
-    _onRendererEventListeners.forEach((listener) => listener(type, id!, name!));
+    for (var listener in _onRendererEventListeners) {
+      listener(type, id!, name!);
+    }
   }
 
   /// This stops playback and changes the data source. Once the new data source has been loaded, the playback state will revert to
@@ -937,8 +942,11 @@ class VlcPlayerController extends ValueNotifier<VlcPlayerValue> {
     _viewId = viewId;
     // do we need to initialize controller after view becomes ready?
     if (autoInitialize) {
-      await Future.delayed(Duration(seconds: 1));
-      await initialize();
+      await Future.delayed(const Duration(milliseconds: 500));
+
+      if (!_isDisposed) {
+        await initialize();
+      }
     }
     _isReadyToInitialize = true;
   }
