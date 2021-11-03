@@ -942,7 +942,7 @@ class VlcPlayerController extends ValueNotifier<VlcPlayerValue> {
     _viewId = viewId;
     // do we need to initialize controller after view becomes ready?
     if (autoInitialize) {
-      await Future.delayed(const Duration(milliseconds: 500));
+      await Future.delayed(const Duration(seconds: 1));
 
       if (!_isDisposed) {
         await initialize();
