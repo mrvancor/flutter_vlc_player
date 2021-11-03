@@ -35,8 +35,8 @@ public class FlutterVlcPlayerPlugin implements FlutterPlugin, ActivityAware {
                     .registerViewFactory(
                             VIEW_TYPE,
                             flutterVlcPlayerFactory
-                    );
-        }
+                    );        
+                }
         registrar.addViewDestroyListener(view -> {
             stopListening();
             return false;
@@ -73,8 +73,8 @@ public class FlutterVlcPlayerPlugin implements FlutterPlugin, ActivityAware {
                     .registerViewFactory(
                             VIEW_TYPE,
                             flutterVlcPlayerFactory
-                    );
-            //
+                    );            
+                    //
         }
         startListening();
     }
@@ -103,7 +103,9 @@ public class FlutterVlcPlayerPlugin implements FlutterPlugin, ActivityAware {
     }
 
     private static void stopListening() {
-        if (flutterVlcPlayerFactory != null)
+        if (flutterVlcPlayerFactory != null) {
             flutterVlcPlayerFactory.stopListening();
+            flutterVlcPlayerFactory = null;
+        }
     }
 }
