@@ -940,13 +940,9 @@ class VlcPlayerController extends ValueNotifier<VlcPlayerValue> {
   /// This method will be called after the platform view has been created
   Future<void> onPlatformViewCreated(int viewId) async {
     _viewId = viewId;
-    // do we need to initialize controller after view becomes ready?
-    if (autoInitialize) {
-      await Future.delayed(const Duration(seconds: 1));
 
-      if (!_isDisposed) {
-        await initialize();
-      }
+    if (!value.isInitialized && autoInitialize) {
+      await initialize();
     }
     _isReadyToInitialize = true;
   }
